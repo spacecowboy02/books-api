@@ -30,6 +30,10 @@ class CreateBookController extends AbstractController
         $content = json_decode($request->request->all()['data'], true);
         $files = $request->files->all();
 
+        if (!$content) {
+            throw new BadRequestHttpException("Request content is empty or is not valid JSON");
+        }
+
         if (!isset($content['title'], $content['description'], $content['authors'], $files['image'])) {
             throw new BadRequestHttpException("Missing request parameters");
         }
