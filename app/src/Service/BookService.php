@@ -101,6 +101,15 @@ readonly class BookService
             }
         }
 
+        $this->apiPlatformValidator->validate(
+            $book,
+            [
+                'groups' => [
+                    Constraint::DEFAULT_GROUP,
+                ],
+            ]
+        );
+
         if (!$image) {
             return $book;
         }
