@@ -13,7 +13,7 @@ To deploy this project, you need to have Docker and Docker Compose installed on 
    
 2. **Access the PHP Container**
 
-   Once all containers are up and running, and you have confirmed their status, access the PHP container with the command:
+   Once all containers are up and running, and you have confirmed their status, access the PHP container in the new terminal with the command:
 
    ```bash
    docker-compose exec php sh
