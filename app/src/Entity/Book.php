@@ -23,11 +23,22 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity]
 #[ApiResource(
     operations: [
-        new Get(normalizationContext: ['groups' => ['get:book:item']]),
-        new GetCollection(normalizationContext: ['groups' => ['get:book:collection']]),
+        new Get(
+            openapiContext: [
+                'summary' => 'Ендпоінт перегляду однієї книги',
+            ],
+            normalizationContext: ['groups' => ['get:book:item']]
+        ),
+        new GetCollection(
+            openapiContext: [
+                'summary' => 'Ендпоінт перегляду списку книжок. Фільтр authorsLastname дозволяє шукати за прізвищем автора.',
+            ],
+            normalizationContext: ['groups' => ['get:book:collection']]
+        ),
         new Post(
             controller: CreateBookController::class,
             openapiContext: [
+                'summary'     => 'Ендпоінт створення книг',
                 'requestBody' => [
                     'content' => [
                         'multipart/form-data' => [
@@ -37,11 +48,20 @@ use Symfony\Component\Validator\Constraints as Assert;
                                     'data'  => [
                                         'type'       => 'object',
                                         'properties' => [
-                                            'title'       => ['type' => 'string'],
-                                            'description' => ['type' => 'string'],
+                                            'title'       => [
+                                                'type'    => 'string',
+                                                'example' => 'The Divine Comedy of Dante Alighieri',
+                                            ],
+                                            'description' => [
+                                                'type'    => 'string',
+                                                'example' => 'The Divine Comedy begins in a shadowed forest on Good Friday in the year 1300',
+                                            ],
                                             "authors"     => [
                                                 'type'  => 'array',
-                                                'items' => ['type' => 'string'],
+                                                'items' => [
+                                                    'type'    => 'string',
+                                                    'example' => '15a32602-3f68-4916-b2c8-10854c287383',
+                                                ],
                                             ],
                                         ],
                                     ],
@@ -58,9 +78,10 @@ use Symfony\Component\Validator\Constraints as Assert;
             deserialize: false,
         ),
         new Post(
-            uriTemplate: '/book/update/{id}',
+            uriTemplate: '/books/update/{id}',
             controller: UpdateBookController::class,
             openapiContext: [
+                'summary'     => 'Ендпоінт редагування книг. Було використано метод POST тому що метод PUT бібліотеки Apiplatform не працює з форматом multipart/form-data',
                 'requestBody' => [
                     'content' => [
                         'multipart/form-data' => [
@@ -70,11 +91,20 @@ use Symfony\Component\Validator\Constraints as Assert;
                                     'data'  => [
                                         'type'       => 'object',
                                         'properties' => [
-                                            'title'       => ['type' => 'string'],
-                                            'description' => ['type' => 'string'],
+                                            'title'       => [
+                                                'type' => 'string',
+                                                'example' => 'The Divine Comedy of Dante Alighieri',
+                                            ],
+                                            'description' => [
+                                                'type' => 'string',
+                                                'example' => 'The Divine Comedy begins in a shadowed forest on Good Friday in the year 1300',
+                                            ],
                                             "authors"     => [
                                                 'type'  => 'array',
-                                                'items' => ['type' => 'string'],
+                                                'items' => [
+                                                    'type' => 'string',
+                                                    'example' => '15a32602-3f68-4916-b2c8-10854c287383',
+                                                ],
                                             ],
                                         ],
                                     ],

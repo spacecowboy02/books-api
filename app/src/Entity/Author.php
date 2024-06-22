@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
@@ -19,9 +20,24 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity]
 #[ApiResource(
     operations: [
-        new Get(normalizationContext: ['groups' => ['get:author:item']]),
-        new GetCollection(normalizationContext: ['groups' => ['get:author:collection']]),
-        new Post(denormalizationContext: ['groups' => ['post:author']]),
+        new Get(
+            openapiContext: [
+                'summary' => 'Ендпоінт перегляду одного автора',
+            ],
+            normalizationContext: ['groups' => ['get:author:item']]
+        ),
+        new GetCollection(
+            openapiContext: [
+                'summary' => 'Ендпоінт перегляду списку авторів',
+            ],
+            normalizationContext: ['groups' => ['get:author:collection']]
+        ),
+        new Post(
+            openapiContext: [
+                'summary' => 'Ендпоінт створення авторів',
+            ],
+            denormalizationContext: ['groups' => ['post:author']]
+        ),
     ],
     paginationClientItemsPerPage: true,
 )]
@@ -40,6 +56,7 @@ class Author
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank()]
     #[Assert\Length(max: 255)]
+    #[ApiProperty(example: 'Mykhailo')]
     #[Groups([
         'get:author:item',
         'get:author:collection',
@@ -52,6 +69,7 @@ class Author
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank()]
     #[Assert\Length(min: 3, max: 255)]
+    #[ApiProperty(example: 'Kotsiubynsky')]
     #[Groups([
         'get:author:item',
         'get:author:collection',
@@ -63,6 +81,7 @@ class Author
 
     #[ORM\Column(length: 255, nullable: true)]
     #[Assert\Length(max: 255)]
+    #[ApiProperty(example: 'Mykhailovych')]
     #[Groups([
         'get:author:item',
         'get:author:collection',
