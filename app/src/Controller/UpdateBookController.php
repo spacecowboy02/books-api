@@ -6,6 +6,7 @@ namespace App\Controller;
 
 use App\Entity\Book;
 use App\Service\BookService;
+use Doctrine\ORM\EntityManagerInterface;
 use Random\RandomException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -19,11 +20,13 @@ class UpdateBookController extends AbstractController
 {
     /**
      * @param BookService $bookService
+     * @param EntityManagerInterface $entityManager
      * @param NormalizerInterface $normalizer
      */
     public function __construct(
-        private readonly BookService         $bookService,
-        private readonly NormalizerInterface $normalizer
+        private readonly BookService            $bookService,
+        private readonly EntityManagerInterface $entityManager,
+        private readonly NormalizerInterface    $normalizer
     ) {}
 
     /**
@@ -43,6 +46,8 @@ class UpdateBookController extends AbstractController
         }
 
         $this->bookService->updateBook($book, $content, $files['image'] ?? null);
+
+        $this->entityManager->flush();
 
         return new JsonResponse(
             $this->normalizer->normalize(

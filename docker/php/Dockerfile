@@ -1,5 +1,7 @@
 FROM php:8.2-fpm
 
+COPY uploads.ini /usr/local/etc/php/conf.d/uploads.ini
+
 # Install required extensions
 RUN apt-get update \
     && apt-get install -y \

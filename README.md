@@ -17,22 +17,29 @@ To deploy this project, you need to have Docker and Docker Compose installed on 
 
    ```bash
    docker-compose exec php sh
+
+3. **Install all dependencies**
+
+   Inside the PHP container, run the command:
+
+   ```bash
+   composer install
    
-3. **Run Migrations**
+4. **Run Migrations**
 
    Inside the PHP container, run the database migrations:
 
    ```bash
    php bin/console doctrine:migrations:migrate
 
-4. **Set Permissions for Uploads Directory**
+5. **Set Permissions for Uploads Directory**
 
    Inside the PHP container, grant the necessary permissions to the folder for saving images:
 
    ```bash
    chmod -R 777 public/uploads
 
-5. **Access the API Documentation**
+6. **Access the API Documentation**
 
    Congratulations! Now, you can navigate to http://localhost:8080/api/docs and start using the API.
 

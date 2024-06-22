@@ -22,6 +22,7 @@ services:
     container_name: php-container
     volumes:
       - ./app:/var/www/project
+      - ./docker/php/uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
     networks:
       - symfony-network
 
