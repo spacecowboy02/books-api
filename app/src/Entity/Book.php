@@ -75,6 +75,7 @@ use Symfony\Component\Validator\Constraints as Assert;
                     ],
                 ],
             ],
+            normalizationContext: ['groups' => ['get:book:item']],
             deserialize: false,
         ),
         new Post(
