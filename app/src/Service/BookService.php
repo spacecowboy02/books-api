@@ -84,7 +84,9 @@ readonly class BookService
 
                     /** @var Author $author */
                     foreach ($book->getAuthors() as $author) {
-                        if ($key = array_search($author->getId()->toString(), array_values($content['authors']), true)) {
+                        $key = $this->findAuthorInRequestParams($author, $content['authors']);
+
+                        if ($key !== null) {
                             unset($content['authors'][$key]);
 
                             continue;
@@ -137,5 +139,21 @@ readonly class BookService
 
             $book->addAuthor($author);
         }
+    }
+
+    /**
+     * @param Author $author
+     * @param array $authors
+     * @return int|null
+     */
+    protected function findAuthorInRequestParams(Author $author, array $authors): int|null
+    {
+        foreach ($authors as $key => $id) {
+            if ($id === $author->getId()->toString()) {
+                return $key;
+            }
+        }
+
+        return null;
     }
 }

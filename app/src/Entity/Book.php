@@ -301,7 +301,7 @@ class Book
     public function addAuthor(Author $author): self
     {
         if (!$this->authors->contains($author)) {
-            $this->authors[] = $author;
+            $this->authors->add($author);
             $author->addBook($this);
         }
 
